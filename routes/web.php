@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'ProductController@index');
+Route::get('/order', 'OrderController@index');
+Route::get('/order-summary', 'OrderController@orderSummary');
+Route::get('/order-list', 'OrderController@orderList');
+Route::get('/order-user', 'OrderController@userOrder');
