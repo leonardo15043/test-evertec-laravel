@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->tinyInteger('mobile')->unique();
+            $table->bigInteger('mobile')->unique()->length(12);
             $table->timestamps();
         });
     }

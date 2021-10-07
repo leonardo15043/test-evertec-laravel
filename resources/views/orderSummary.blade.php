@@ -8,43 +8,44 @@
     <body>
     @include('navbar')
     <div class="container mt-5">
+        <h1 class="display-4">Resumen de la Orden</h1>
 
-      <h1 class="display-4">Resumen de la Orden</h1>
+        <div class="row">
+            <div class="col-4">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Nombre</th>
+                            <td>{{ $customer->name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>{{ $customer->email }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Telefono</th>
+                            <td>{{ $customer->mobile }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-      <div class="row">
-        <div class="col-4">
-          
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <th scope="row">Nombre</th>
-                    <td>Leonardo</td>
-                </tr>
-                <tr>
-                    <th scope="row">Email</th>
-                    <td>lahernandez15043@gmail.com</td>
-                </tr>
-                <tr>
-                    <th scope="row">Telefono</th>
-                    <td>534534534</td>
-                </tr>
-                <tr>
-                    <th scope="row">Producto</th>
-                    <td>Prueba</td>
-                </tr>
-                <tr>
-                    <th scope="row">Precio</th>
-                    <td>$90000</td>
-                </tr>
-               
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-primary mt-3">Pagar</button>
-        </div>
-      </div>
-
-    </div>
-
+            @foreach (Cart::getContent() as $product)
+            <div class="col-4">
+                <div class="card">
+                <div class="card-header">
+                {{ $product->name }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><b>$</b>{{ $product->price }}</p>
+                    <input type="hidden" name="id_product" value="{{ $product->id }}">
+                </div>
+                </div>
+            </div>
+            @endforeach
+            <div class="col-4"><button type="submit" class="btn btn-primary mt-3">Pagar</button></div>
+        </div>  
+    </div>  
     <script src="{{asset('js/app.js')}}"></script>
     </body>
 </html>

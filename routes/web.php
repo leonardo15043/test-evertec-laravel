@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', 'ProductController@index');
+
 Route::get('/order', 'OrderController@index');
-Route::get('/order-summary', 'OrderController@orderSummary');
-Route::get('/order-list', 'OrderController@orderList');
-Route::get('/order-user', 'OrderController@userOrder');
+Route::match(array('GET', 'POST'),'/cart-add','OrderController@addCart')->name('cart.add');
+Route::post('/order-save','OrderController@save')->name('order.save');
+
+//  Route::resource('/order', 'OrderController');
+//Route::get('/order-summary', 'OrderController@orderSummary');
+//Route::get('/order-list', 'OrderController@orderList');
+//Route::get('/order-user', 'OrderController@userOrder');
