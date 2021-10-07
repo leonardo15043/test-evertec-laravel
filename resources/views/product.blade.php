@@ -12,19 +12,21 @@
       <h1 class="display-4">Lista de Productos</h1>
 
       <div class="row">
+        @foreach( $products as $product )
         <div class="col-4">
           <div class="card">
             <div class="card-header">
-              Producto de ejemplo
+             {{ $product->name }}
             </div>
             <div class="card-body">
-              <p class="card-text">Esta es una descripcion de ejemplo</p>
+              <p class="card-text"><b>$</b>{{ $product->price }}</p>
               <a href="#" class="btn btn-primary">Comprar</a>
             </div>
           </div>
         </div>
+        @endforeach
       </div>
-
+      
     </div>
 
     <script src="{{asset('js/app.js')}}"></script>
