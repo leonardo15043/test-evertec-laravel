@@ -25,11 +25,12 @@ class CreateOrdersTable extends Migration
             $table->foreign('id_product')->references('id')->on('products');
             
             $table->decimal('payment', 10, 2);
+            $table->integer("request_id");
             $table->date('expiration_date');
             $table->timestamps();
         });
     }
-
+     
     /**
      * Reverse the migrations.
      *

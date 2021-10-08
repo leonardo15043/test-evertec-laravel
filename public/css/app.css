@@ -6594,6 +6594,20 @@ fieldset:disabled .btn {
   transition: transform 0.6s ease-in-out;
 }
 
+.respon-pay{
+  width: 39rem;
+}
+
+.respon-pay .title{
+  font-size: 19px;
+}
+
+.respon-pay .badge{
+  background-color: #b94848dd;
+  font-size: 14px;
+  font-weight: initial;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {
     transition: none;

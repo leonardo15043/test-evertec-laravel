@@ -43,7 +43,7 @@
                 </div>
             </div>
             @endforeach
-            <div class="col-4"><a href="order-pay/{{ $customer->id }}" class="btn btn-primary mt-3">Pagar</a></div>
+            <div class="col-4"><a href="order-pay/{{ $order->id }}" class="btn btn-primary mt-3">Pagar</a></div>
         </div>  
     </div>  
     <script src="{{asset('js/app.js')}}"></script>

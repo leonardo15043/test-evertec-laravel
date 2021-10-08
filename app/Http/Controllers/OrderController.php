@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Session;
 use App\Product;
 use App\Customer;
 use App\Order;
@@ -100,20 +101,21 @@ class OrderController extends Controller
         //Guardamos los datos del usuario y posteriormente agregamos los datos del carrito de compras en la Entidad Order
         if($customer->save()){
 
-                foreach (Cart::getContent() as $cart) {
+            foreach (Cart::getContent() as $cart) {
     
-                    $order = new Order();
-                    $order->id_customer = $customer->id;
-                    $order->id_order_state  = 1;
-                    $order->id_product  = $cart->id;
-                    $order->payment  = $cart->price;
-                    $order->expiration_date  = $cart->attributes->expiration_date;
-                    $order->save();
+                $order = new Order();
+                $order->id_customer = $customer->id;
+                $order->id_order_state  = 1;
+                $order->id_product  = $cart->id;
+                $order->payment  = $cart->price;
+                $order->request_id  = 0;
+                $order->expiration_date  = $cart->attributes->expiration_date;
+                $order->save();
         
-                }
+            }
         }
         
-        return view('orderSummary', [ 'customer'=>$customer ]);
+        return view('orderSummary', [ 'customer'=>$customer,'order'=>$order ]);
     }
 
     public function pay(Request $request){
@@ -129,7 +131,7 @@ class OrderController extends Controller
                 "total" => $products[1]->price
             )
         );
-
+    
         $this->dataApi["expiration"] = $products[1]->attributes->expiration_date;
         $this->dataApi["returnUrl"] = env('PLACETOPAY_RETURN_URL'); // Cuano el usuario termine la transaccion en PlacetoPay retornara a esta URL y cambiara el estado de la transaccion
         $this->dataApi["ipAddress"] = env('DB_HOST');
@@ -137,9 +139,48 @@ class OrderController extends Controller
 
         //Realizamos la peticion POST a los servicios de PlacetoPay
         $response = Http::post(env('PLACETOPAY_ENDPOINT').'api/session/',$this->dataApi );
+
+        //Actualizar el registro de la orden con el requestID de PlacetoPay
+        $data_order = array("request_id"=>$response['requestId']);
+        Order::whereId($request->id_order)->update($data_order);
+
+        $request->session()->put('requestID', $response['requestId']);
+
         Cart::clear(); // Limpiamos el carrito de compras
 
         return Redirect::to($response['processUrl']); //Hacemos un redireccionamiento a la url de respuesta del servicio para realizar el pago
+        
+    }
+
+    public function responsePay(Request $request){
+        //Consulta del estado de la transaccion 
+        $response = Http::post(env('PLACETOPAY_ENDPOINT').'api/session/'.$request->session()->get('requestID'),$this->dataApi );
+  
+        switch ($response['status']['status']) {
+            case 'APPROVED':
+                $status = 2;
+                break;
+            case 'REJECTED':
+                $status = 3;
+                break; 
+            default:
+                $status = 3;
+                break;
+        }
+        //Esta validacion es para que el usuaruio solo pueda ver los datos de la transaccion una sola vez 
+        if($request->session()->has('requestID')){
+
+            //Actualizamos el estado de la Orden
+            $data_order = array("id_order_state"=> $status); 
+            Order::where(['request_id'=>$response['requestId']])->update($data_order);
+            //Eliminamos la variable de session
+            $request->session()->forget('requestID');
+            return view('responsePay', [ 'response'=>$response ]);
+
+        }else{
+            // Si la variable de session no exciste el usuario sera redireccionado al home 
+            return redirect('/');
+        }
         
     }
 }
