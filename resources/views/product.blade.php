@@ -12,8 +12,8 @@
       <h1 class="display-4">Lista de Productos</h1>
 
       <div class="row">
-        @foreach( $products as $product )
         
+        @foreach( $products as $product )
           <div class="col-4">
           <form action="{{route('cart.add')}}" method="post" id="pord{{ $product->id }}">
           @csrf
@@ -29,10 +29,9 @@
             </div>
           </form>
           </div>
-      
         @endforeach
-      </div>
 
+      </div>
     </div>
 
     <script src="{{asset('js/app.js')}}"></script>

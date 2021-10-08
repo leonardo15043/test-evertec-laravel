@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', 'ProductController@index');
-
 Route::get('/order', 'OrderController@index');
+Route::get('/order-pay/{id_customer}', 'OrderController@pay');
 Route::match(array('GET', 'POST'),'/cart-add','OrderController@addCart')->name('cart.add');
 Route::post('/order-save','OrderController@save')->name('order.save');
 

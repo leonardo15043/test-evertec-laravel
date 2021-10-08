@@ -11,7 +11,6 @@
 
       <h1 class="display-4">Tú lista de Ordenes</h1>
 
-         
         <table class="table">
             <thead class="thead-dark">
                 <tr>
