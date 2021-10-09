@@ -12,7 +12,7 @@
       <h1 class="display-4">Registrar Orden</h1>
 
       <div class="row">
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           
         <form method="POST" action="{{route('order.save')}}">
         @csrf

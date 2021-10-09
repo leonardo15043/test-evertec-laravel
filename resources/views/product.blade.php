@@ -14,7 +14,7 @@
       <div class="row">
         
         @foreach( $products as $product )
-          <div class="col-4">
+          <div class="col-12 col-sm-4">
           <form action="{{route('cart.add')}}" method="post" id="pord{{ $product->id }}">
           @csrf
             <div class="card">

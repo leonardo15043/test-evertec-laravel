@@ -11,7 +11,7 @@
         <h1 class="display-4">Resumen de la Orden</h1>
 
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-sm-4">
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
@@ -31,7 +31,7 @@
             </div>
 
             @foreach (Cart::getContent() as $product)
-            <div class="col-4">
+            <div class="col-12 col-sm-4">
                 <div class="card">
                 <div class="card-header">
                 {{ $product->name }}
@@ -43,7 +43,7 @@
                 </div>
             </div>
             @endforeach
-            <div class="col-4"><a href="/order-pay/{{ $order->id }}" class="btn btn-primary mt-3">Pagar</a></div>
+            <div class="col-12 col-sm-4"><a href="/order-pay/{{ $order->id }}" class="btn btn-primary mt-3">Pagar</a></div>
         </div>  
     </div>  
     <script src="{{asset('js/app.js')}}"></script>
