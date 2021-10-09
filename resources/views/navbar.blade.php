@@ -9,8 +9,13 @@
       <li class="nav-item active">
         <a class="nav-link" href="{{ url('/') }}">Productos</a>
       </li>
-      <li class="nav-item ">
+      @if (Session::get('id_customer', 0))
+      <li class="nav-item">
         <a class="nav-link" href="{{ url('/order-user') }}">Mis Ordenes</a>
+      </li>
+      @endif
+      <li class="nav-item ">
+        <a class="nav-link" href="{{ url('/order-list') }}">Lista de Ordenes</a>
       </li>
     </ul>
 

@@ -30,7 +30,7 @@
                     <td>{{ $order->name_product }}</td>
                     <td>${{ $order->price }}</td>
                     <td>{{ $order->status }}</td>
-                    <td>{{ date('d-M-y h:m', strtotime( $order->date_order  )) }}</td> 
+                    <td>{{ date('d-M-Y h:m', strtotime( $order->date_order  )) }}</td> 
                 </tr>
                 @endforeach
             </tbody>

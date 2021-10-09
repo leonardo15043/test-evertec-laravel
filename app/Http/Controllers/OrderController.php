@@ -42,8 +42,9 @@ class OrderController extends Controller
         $orders = $orderModel->ordersAll(); // Consultamos todos las ordenes de la base de datos
         return view('orderList', [ "orders" => $orders ]);
     }
-    public function userOrder(){
-        return view('userOrders');
+    public function userOrder( Order $orderModel ){
+        $orders = $orderModel->ordersCustomer(); // Consultamos las ordenes relacionadas con el usuario actual
+        return view('userOrders', [ "orders" => $orders ]);
     }
 
     public function addCart(Request $request){
@@ -112,9 +113,38 @@ class OrderController extends Controller
                 $order->save();
         
             }
+            //Guardamos el id del usuario en una variable de session para que posteriormente podamos consultar sus ordenes correspondientes
+            $request->session()->put('id_customer', $customer->id);
+
         }
         
         return view('orderSummary', [ 'customer'=>$customer,'order'=>$order ]);
+    }
+
+    public function orderReturn(Request $request){
+
+        Cart::clear(); // Limpoamos el carrito para que el usuario solo retome la orden seleccionada
+
+        //Consultamos la orden , los datos del usuario y el producto para retomar la orden
+        $order = Order::find($request->id_order);
+        $customer = Customer::find($order->id_customer);
+        $product = Product::find($order->id_product);
+
+        $expiration_date = Carbon::now(); 
+        
+        //Agregamos el producto consultado anteriormente al carrito para que posteriormente en la vista "orderSummary" muestre los datos correspondientes
+        Cart::add(array(
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
+            'quantity' => $product->quantity,
+            'attributes' => array(
+                'expiration_date'=> $expiration_date->addDay(5)
+            )
+        ));
+
+        return view('orderSummary', [ 'customer'=>$customer,'order'=>$order ]);
+
     }
 
     public function pay(Request $request){
