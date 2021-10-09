@@ -19,6 +19,7 @@ class OrderController extends Controller
     public function __construct()
     {
         //AUTENTICACION PlaceToPay :: Datos obligatorios para hacer cualquier interaccion con la API. 
+        //https://placetopay.github.io/web-checkout-api-docs/?shell#autenticacion
 
         $nonce = rand(1,60); 
         $nonceBase64 = base64_encode($nonce); // Valor aleatorio para cada solicitud codificado en Base64.
@@ -37,11 +38,9 @@ class OrderController extends Controller
     public function index(Request $request){
         return view('order');
     }
-    public function orderSummary(){
-        return view('orderSummary');
-    }
-    public function orderList(){
-        return view('orderList');
+    public function orderList( Order $orderModel ){
+        $orders = $orderModel->ordersAll(); // Consultamos todos las ordenes de la base de datos
+        return view('orderList', [ "orders" => $orders ]);
     }
     public function userOrder(){
         return view('userOrders');
@@ -153,7 +152,9 @@ class OrderController extends Controller
     }
 
     public function responsePay(Request $request){
+
         //Consulta del estado de la transaccion 
+        //https://placetopay.github.io/web-checkout-api-docs/?shell#getrequestinformation
         $response = Http::post(env('PLACETOPAY_ENDPOINT').'api/session/'.$request->session()->get('requestID'),$this->dataApi );
   
         switch ($response['status']['status']) {
