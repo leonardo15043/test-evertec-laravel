@@ -1,61 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://www.evertecinc.com/wp-content/uploads/2020/07/logo-evertec.png" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
 
-## About Laravel
+## Test Evertec
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Esta tienda básica desarrollada en Laravel esta dividida en 5 etapas para el proceso de compra.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Listado de productos.
+- Ingreso de datos básicos del usuario
+- Confirmación de la compra
+- Pago por **PlacetoPay**
+- Confirmación y respuesta de la transacción.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Adicionalmente tenemos dos pestañas donde podemos ver el listado de las ordenes que realizo el usuario y un listado con todas las ordenes de comprar que se han realizado en la tienda, cabe aclarar que el listado de ordenes por usuario solo se visualizara si se ingresaron los datos del usuario en la ultima transacción.
 
-## Learning Laravel
+<img src="https://lh3.googleusercontent.com/2zT-9SMF5Xy0tb0gBLzSvpSCqhXNPu2v_mgVY-EP_ALhTrcqD-UpR17HF9YVA8ps56QkDU-Lm2bJz67kzmY=w2560-h937">
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Proceso de instalación y configuración
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Después de clonar el repositorio en nuestro ambiente de desarrollo local debemos ejecutar los siguientes comandos:
 
-## Laravel Sponsors
+#### 1 - Dependencias de Composer
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```composer install```
 
-### Premium Partners
+#### 2 - Crear archivo .env
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+Este archivo contiene todas las variables de entorno del sistema y debe estar creado en la raíz del proyecto basado en el archivo de ejemplo **.env.example**, es importante completar las variables de entorno de **PlaceToPay** para que el proyecto funcione correctamente.
 
-## Contributing
+#### 3 - Crear API Key del proyecto
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Cada proyecto de **Laravel** tiene una clave única y para generarla lo podemos hacer con el comando 
 
-## Code of Conduct
+```php artisan key:generate```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### 4 - Configuración de Base de datos
 
-## Security Vulnerabilities
+Para configurar la base de datos primero debemos crearla desde nuestro gestor de base de datos, posteriormente abrimos el archivo **.env** y modificamos las siguientes variables de entorno.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## License
+#### 5 - Ejecutar migraciones
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Las migraciones son básicamente la estructura de la base de datos que ya esta construida en el código para pasarla a MYSQL, esto lo podemos hacer con el siguiente comando.
+
+```php artisan migrate```
+
+#### 6 - Ejecutar Seeders
+
+Para ejecutar los seeders que no es mas que información prestablecida de la base de datos que esta en nuestro código y que en este caso sube los estados de las ordenes y un producto de ejemplo debemos ejecutar el siguiente comando.
+
+```php artisan migrate --seed```
+
+#### 7 - Ejecutar proyecto
+
+```php artisan serve```
