@@ -4,7 +4,6 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-
     <ul class="navbar-nav">
       <li class="nav-item active">
         <a class="nav-link" href="{{ url('/') }}">Productos</a>
@@ -18,6 +17,5 @@
         <a class="nav-link" href="{{ url('/order-list') }}">Lista de Ordenes</a>
       </li>
     </ul>
-
   </div>
 </nav>
